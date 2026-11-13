@@ -1,0 +1,212 @@
+﻿{
+ "allosaurus": {
+  "title": "Allosaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:WLA_hmns_Allosaurus_White_Background.jpg",
+  "artist": "The_Wookies",
+  "license": "CC BY 2.5",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
+ },
+ "archaeopteryx": {
+  "title": "Archaeopteryx",
+  "page": "https://commons.wikimedia.org/wiki/File:Archaeopteryx_lithographica_(Berlin_specimen).jpg",
+  "artist": "H. Raab (User: Vesta)",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+ },
+ "tyrannosaurus": {
+  "title": "Tyrannosaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:Tyrannosaurus_Rex_Holotype.jpg",
+  "artist": "ScottRobertAnselmo",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+ },
+ "velociraptor": {
+  "title": "Velociraptor",
+  "page": "https://commons.wikimedia.org/wiki/File:Velociraptor_skeleton_white_background.jpg",
+  "artist": "Eduard Solà Vázquez",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+ },
+ "triceratops": {
+  "title": "Triceratops",
+  "page": "https://commons.wikimedia.org/wiki/File:LA-Triceratops_mount-2.jpg",
+  "artist": "Source: Allie_Caulfield Derivative: User:MathKnight",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+ },
+ "stegosaurus": {
+  "title": "Stegosaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:Journal.pone.0138352.g001A.jpg",
+  "artist": "Susannah Maidment et al. & Natural History Museum, London",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+ },
+ "iguanodon": {
+  "title": "Iguanodon",
+  "page": "https://commons.wikimedia.org/wiki/File:Iguanodon_de_Bernissart_IRSNB_01.JPG",
+  "artist": "Ben2",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+ },
+ "deinonychus": {
+  "title": "Deinonychus",
+  "page": "https://commons.wikimedia.org/wiki/File:Deinonychus_FMNH.jpg",
+  "artist": "Jonathan Chen",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "dilophosaurus": {
+  "title": "Dilophosaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:DilophosaurusROM1.JPG",
+  "artist": "Eduard Solà",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+ },
+ "gallimimus": {
+  "title": "Gallimimus",
+  "page": "https://commons.wikimedia.org/wiki/File:Gallimimus_bullatus.001_-_Natural_History_Museum_of_London.JPG",
+  "artist": "Fernando Losada Rodríguez",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "oviraptor": {
+  "title": "Oviraptor",
+  "page": "https://commons.wikimedia.org/wiki/File:Oviraptor_holotype.jpg",
+  "artist": "Internet Archive Book Images",
+  "license": "Public domain",
+  "licenseUrl": ""
+ },
+ "argentinosaurus": {
+  "title": "Argentinosaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:Argentinosaurus_skeleton,_PLoS_ONE.png",
+  "artist": "William Irvin Sellers, Lee Margetts, Rodolfo Aníbal Coria, Phillip Lars Manning",
+  "license": "CC BY 2.5",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
+ },
+ "spinosaurus": {
+  "title": "Spinosaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:FSAC-KK-11888.jpg",
+  "artist": "3blindMies",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "therizinosaurus": {
+  "title": "Therizinosaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:Therizinosaurus_arms.jpg",
+  "artist": "Yuya Tamai from Gifu, Japan",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+ },
+ "giganotosaurus": {
+  "title": "Giganotosaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:Giganotosaurus_at_Fernbank.jpg",
+  "artist": "Jonathan Chen",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "ankylosaurus": {
+  "title": "Ankylosaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:Ankylosaur_head_-_cast_-_Custer_County_Montana_-_Museum_of_the_Rockies_-_2013-07-08.jpg",
+  "artist": "Tim Evanson",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "kentrosaurus": {
+  "title": "Kentrosaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:Berlin_Naturkundemuseum_Dino_Eingangshalle.jpg",
+  "artist": "LoKiLeCh",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+ },
+ "microraptor": {
+  "title": "Microraptor",
+  "page": "https://commons.wikimedia.org/wiki/File:Microraptor_gui_holotype.png",
+  "artist": "David W. E. Hone, Helmut Tischlinger, Xing Xu, Fucheng Zhang",
+  "license": "CC BY 2.5",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
+ },
+ "protoceratops": {
+  "title": "Protoceratops",
+  "page": "https://commons.wikimedia.org/wiki/File:Andrewsi.jpg",
+  "artist": "Tadek Kurpaski from London, Poland",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+ },
+ "baryonyx": {
+  "title": "Baryonyx",
+  "page": "https://commons.wikimedia.org/wiki/File:Baryonyx_walkeri_mount_NMNS.jpg",
+  "artist": "★Kumiko★",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "coelophysis": {
+  "title": "Coelophysis",
+  "page": "https://commons.wikimedia.org/wiki/File:Coelophysis_bauri_mount.jpg",
+  "artist": "James St. John",
+  "license": "CC BY 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+ },
+ "carnotaurus": {
+  "title": "Carnotaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:Carnotaurus,_Chlup%C3%A1%C4%8D_Museum,_Prague-2.jpg",
+  "artist": "Carnotaurus, Chlupáč Museum, Prague-2.jpg: Czech Wikipedia user Packa derivative work: Hic et nunc",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+ },
+ "plateosaurus": {
+  "title": "Plateosaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:Plateosaurus_Skelett_2.jpg",
+  "artist": "FunkMonk",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+ },
+ "edmontosaurus": {
+  "title": "Edmontosaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:Edmontosaurus_Family_Clean.png",
+  "artist": "MCDinosaurhunter",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+ },
+ "pachycephalosaurus": {
+  "title": "Pachycephalosaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:Pachycephalosaurus_wyomingensis_ROM.jpg",
+  "artist": "IJReid",
+  "license": "CC BY 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+ },
+ "styracosaurus": {
+  "title": "Styracosaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:StyracosaurCMN2.jpg",
+  "artist": "LittleLazyLass",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "herrerasaurus": {
+  "title": "Herrerasaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:Herrerasaurus_skeleton.jpg",
+  "artist": "★Kumiko★",
+  "license": "CC BY-SA 2.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+ },
+ "parasaurolophus": {
+  "title": "Parasaurolophus",
+  "page": "https://commons.wikimedia.org/wiki/File:FMNH_Parasaurolophus_fossil.jpg",
+  "artist": "Zissoudisctrucker",
+  "license": "CC BY-SA 4.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+ },
+ "diplodocus": {
+  "title": "Diplodocus",
+  "page": "https://commons.wikimedia.org/wiki/File:CM_Diplodocus.jpg",
+  "artist": "ScottRobertAnselmo",
+  "license": "CC BY-SA 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+ },
+ "brachiosaurus": {
+  "title": "Brachiosaurus",
+  "page": "https://commons.wikimedia.org/wiki/File:Brachiosaurus_mount.jpg",
+  "artist": "Matt Wedel",
+  "license": "CC BY 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+ }
+}

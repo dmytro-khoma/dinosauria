@@ -1,0 +1,969 @@
+/* ==========================================================================
+   Dinosauria — styles
+   --------------------------------------------------------------------------
+   Look: a printed natural-history field guide. Warm paper, ink, one colour
+   per geological period. Light and dark themes follow the system setting.
+
+   1. Tokens          5. Toolbar & filters   9. Detail dialog
+   2. Base            6. Cards              10. Footer
+   3. Hero            7. Empty state        11. Motion
+   4. Timeline        8. Buttons & tags
+   ========================================================================== */
+
+/* ---- 1. Tokens ---------------------------------------------------------- */
+
+:root {
+  --paper: #f4efe5;
+  --paper-2: #ebe3d4;
+  --card: #fbf8f2;
+  --ink: #1c2420;
+  --ink-2: #4d5852;
+  --ink-3: #7b847e;
+  --line: rgb(28 36 32 / 0.12);
+  --accent: #2f5d46;
+  --accent-ink: #f4efe5;
+  --amber: #b9772f;
+
+  --triassic: #b4553a;
+  --jurassic: #3f7a58;
+  --cretaceous: #3a5f8c;
+
+  --herbivore: #5b8a3c;
+  --carnivore: #b23b2e;
+  --omnivore: #c48a22;
+
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --radius: 18px;
+  --radius-s: 10px;
+  --shadow: 0 1px 1px rgb(40 30 10 / 0.04), 0 6px 18px -6px rgb(40 30 10 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(40 30 10 / 0.06), 0 26px 50px -18px rgb(40 30 10 / 0.35);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #121614;
+    --paper-2: #1a1f1c;
+    --card: #1b211e;
+    --ink: #ece6da;
+    --ink-2: #b9b3a6;
+    --ink-3: #8b877d;
+    --line: rgb(236 230 218 / 0.12);
+    --accent: #9cc9a9;
+    --accent-ink: #121614;
+    --amber: #e0a55f;
+    --triassic: #e08a6c;
+    --jurassic: #7cc39a;
+    --cretaceous: #8fb2e0;
+    --herbivore: #9ccc76;
+    --carnivore: #f07a68;
+    --omnivore: #e8b65a;
+    --shadow: 0 1px 1px rgb(0 0 0 / 0.3), 0 8px 20px -8px rgb(0 0 0 / 0.6);
+    --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.3), 0 30px 60px -20px rgb(0 0 0 / 0.8);
+
+    color-scheme: dark;
+  }
+}
+
+/* ---- 2. Base ------------------------------------------------------------ */
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+[hidden] { display: none !important; }
+
+html {
+  /* Above 1920px wide, scale the whole rem-based layout with the screen
+     (16px at 1920, ~21px at 2560, 32px at 3840). max() keeps the user's
+     own font-size setting as the minimum. */
+  font-size: max(100%, 100vw / 120);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--paper);
+  /* Paper grain: a tiny SVG noise texture, about 1 KB. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.3 0 0 0 0 0.25 0 0 0 0 0.15 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  color: var(--ink);
+  font: 400 1rem/1.6 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg { display: block; max-width: 100%; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+
+a { color: var(--accent); text-underline-offset: 0.2em; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection { background: var(--accent); color: var(--accent-ink); }
+
+.wrap { width: min(100% - 2 * clamp(1rem, 4vw, 3rem), 82rem); margin-inline: auto; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute; left: 1rem; top: 1rem; z-index: 99;
+  padding: 0.6rem 1rem; border-radius: 999px;
+  background: var(--ink); color: var(--paper); translate: 0 -200%;
+}
+.skip-link:focus-visible { translate: 0 0; }
+
+.kicker {
+  font: 600 0.75rem/1 var(--sans);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* ---- 3. Hero ------------------------------------------------------------ */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(3.5rem, 9vw, 7rem) 2.5rem;
+  isolation: isolate;
+}
+
+/* Soft coloured light behind the title. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -30% -10% auto;
+  height: 120%;
+  z-index: -1;
+  background:
+    radial-gradient(40% 50% at 15% 35%, color-mix(in srgb, var(--jurassic) 22%, transparent), transparent 70%),
+    radial-gradient(35% 45% at 85% 20%, color-mix(in srgb, var(--amber) 22%, transparent), transparent 70%),
+    radial-gradient(30% 40% at 60% 80%, color-mix(in srgb, var(--cretaceous) 16%, transparent), transparent 70%);
+  filter: blur(10px);
+}
+
+.hero__inner { display: grid; gap: 1.4rem; }
+
+.hero__title {
+  font: 400 clamp(4rem, 2rem + 11vw, 11rem)/0.85 var(--serif);
+  letter-spacing: -0.045em;
+  margin-left: -0.05em;
+}
+
+.hero__title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero__lead {
+  max-width: 38rem;
+  font: 400 clamp(1.1rem, 1rem + 0.5vw, 1.35rem)/1.55 var(--serif);
+  color: var(--ink-2);
+}
+
+.hero__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem clamp(2rem, 6vw, 4.5rem);
+  margin-top: 0.75rem;
+}
+
+.hero__stats dt {
+  font: 600 0.7rem/1 var(--sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.hero__stats dd {
+  font: 400 clamp(2rem, 1.5rem + 2vw, 3rem)/1.1 var(--serif);
+  font-variant-numeric: lining-nums;
+}
+
+.hero__stats small { font: 500 0.85rem var(--sans); color: var(--ink-3); }
+
+/* ---- 4. Timeline -------------------------------------------------------- */
+
+.timeline {
+  --h: 54px;
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  position: relative;
+}
+
+/* Bands are sized by how long each period lasted (51, 56, 79 Myr). */
+.timeline__bands {
+  display: grid;
+  grid-template-columns: 51fr 56fr 79fr;
+  gap: 4px;
+  height: var(--h);
+}
+
+.band {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-inline: 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--c) 10%, transparent);
+  color: var(--c);
+  font: 600 0.8rem/1 var(--sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.band small {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  opacity: 0.8;
+}
+
+.band:hover { background: color-mix(in srgb, var(--c) 20%, transparent); }
+
+.band[aria-pressed="true"] {
+  background: var(--c);
+  color: var(--paper);
+  border-color: var(--c);
+}
+
+.band--triassic { --c: var(--triassic); }
+.band--jurassic { --c: var(--jurassic); }
+.band--cretaceous { --c: var(--cretaceous); }
+
+/* Dots sit under the bands, placed by the start of each species' range. */
+.timeline__dots {
+  position: relative;
+  height: 26px;
+  margin-top: 8px;
+}
+
+.timeline__dot {
+  position: absolute;
+  top: calc(var(--row) * 9px);
+  left: var(--x);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c);
+  translate: -50% 0;
+  transition: opacity 0.4s var(--ease), scale 0.4s var(--ease);
+}
+
+.timeline__dot.is-out { opacity: 0.15; scale: 0.6; }
+
+.timeline__scale {
+  position: relative;
+  height: 1rem;
+  margin-top: 4px;
+  font: 500 0.72rem/1 var(--sans);
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.tick { position: absolute; left: var(--x); translate: -50% 0; white-space: nowrap; }
+.tick--start { --x: 0%; translate: 0 0; }
+.tick--triassic-end { --x: calc(51 / 186 * 100%); }
+.tick--jurassic-end { --x: calc(107 / 186 * 100%); }
+.tick--end { --x: 100%; translate: -100% 0; }
+
+@media (max-width: 40em) {
+  .band small { display: none; }
+  .band { justify-content: center; padding-inline: 0.25rem; letter-spacing: 0.06em; font-size: 0.68rem; }
+  .tick--triassic-end,
+  .tick--jurassic-end { display: none; }
+}
+
+/* ---- 5. Toolbar & filters ----------------------------------------------- */
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding-block: 0.85rem 0.6rem;
+  background: color-mix(in srgb, var(--paper) 78%, transparent);
+  backdrop-filter: blur(14px) saturate(1.3);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  border-block: 1px solid var(--line);
+}
+
+/* On phones the filters would cover half the screen, so they scroll away. */
+@media (max-width: 47.99em) {
+  .toolbar { position: relative; }
+
+  .toolbar__selects {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .select select { min-width: 0; width: 100%; }
+  .range { min-width: 0; }
+}
+
+.toolbar__inner {
+  display: grid;
+  gap: 0.75rem;
+  align-items: center;
+
+  @media (min-width: 62em) {
+    grid-template-columns: minmax(16rem, 1.2fr) auto;
+  }
+}
+
+.toolbar__selects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: end;
+
+  @media (min-width: 62em) { grid-column: 1 / -1; }
+}
+
+/* Search field */
+.search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search svg {
+  position: absolute;
+  left: 1rem;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: var(--ink-3);
+  stroke-width: 2;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.search input {
+  width: 100%;
+  height: 3rem;
+  padding: 0 3rem 0 2.8rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.04);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search input::placeholder { color: var(--ink-3); }
+
+.search input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.search input::-webkit-search-cancel-button { cursor: pointer; }
+
+.search kbd {
+  position: absolute;
+  right: 1rem;
+  display: grid;
+  place-items: center;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink-3);
+  font: 500 0.75rem var(--sans);
+}
+
+.search:has(input:focus) kbd,
+.search:has(input:not(:placeholder-shown)) kbd { opacity: 0; }
+
+/* Diet chips: real checkboxes styled as pills. */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  border: 0;
+  padding: 0;
+}
+
+.chip { position: relative; }
+
+.chip input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.chip span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 2.4rem;
+  padding-inline: 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.chip span::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+.chip:hover span { border-color: var(--c); }
+
+.chip input:checked + span {
+  background: var(--c);
+  border-color: var(--c);
+  color: var(--paper);
+}
+
+.chip input:checked + span::before { background: var(--paper); }
+.chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.chip--herbivore { --c: var(--herbivore); }
+.chip--carnivore { --c: var(--carnivore); }
+.chip--omnivore { --c: var(--omnivore); }
+
+/* Selects and range */
+.select,
+.range {
+  display: grid;
+  gap: 0.25rem;
+  font: 600 0.68rem/1 var(--sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.select select {
+  appearance: none;
+  height: 2.4rem;
+  min-width: 9.5rem;
+  padding: 0 2.2rem 0 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") right 0.7rem center / 14px no-repeat,
+    var(--card);
+  color: var(--ink);
+  font: 500 0.9rem var(--sans);
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.select select:hover { border-color: color-mix(in srgb, var(--ink) 30%, transparent); }
+
+.range { min-width: 11rem; }
+.range output { color: var(--ink); letter-spacing: 0; text-transform: none; font-weight: 600; margin-left: 0.3rem; }
+
+.range input {
+  --fill: 100%;
+  appearance: none;
+  height: 2.4rem;
+  background: transparent;
+  cursor: pointer;
+}
+
+.range input::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(to right, var(--accent) var(--fill), var(--line) var(--fill));
+}
+
+.range input::-moz-range-track {
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(to right, var(--accent) var(--fill), var(--line) var(--fill));
+}
+
+.range input::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -7px;
+  border: 3px solid var(--card);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.3);
+}
+
+.range input::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 3px solid var(--card);
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* Result count and active filter pills */
+.toolbar__status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-top: 0.6rem;
+  min-height: 1.9rem;
+  font-size: 0.875rem;
+  color: var(--ink-2);
+}
+
+.toolbar__status [data-count] { font-weight: 600; color: var(--ink); }
+
+.active-filters { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.4rem 0.2rem 0.7rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--paper-2);
+  font-size: 0.8rem;
+}
+
+.pill::after { content: "×"; font-size: 1rem; line-height: 1; color: var(--ink-3); }
+.pill:hover { background: color-mix(in srgb, var(--carnivore) 18%, var(--paper-2)); }
+
+.text-button {
+  margin-left: auto;
+  padding: 0.3rem 0;
+  border: 0;
+  background: none;
+  color: var(--ink-2);
+  font-size: 0.875rem;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.text-button:hover { color: var(--carnivore); }
+
+/* ---- 6. Cards ----------------------------------------------------------- */
+
+.grid {
+  list-style: none;
+  padding: 2rem 0 4rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: clamp(1rem, 2vw, 1.75rem);
+}
+
+.card { container-type: inline-size; }
+
+.card__button {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  text-align: left;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease), border-color 0.3s;
+}
+
+.card__button:hover,
+.card__button:focus-visible {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lift);
+  border-color: color-mix(in srgb, var(--c) 45%, var(--line));
+}
+
+.card__button:focus-visible { outline-offset: 4px; border-radius: var(--radius); }
+
+.card__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+
+.card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s var(--ease), filter 0.6s var(--ease);
+  filter: saturate(0.9) contrast(1.02);
+}
+
+/* Soft vignette so the period tag stays readable on bright photos. */
+.card__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgb(0 0 0 / 0.28), transparent 35%);
+  pointer-events: none;
+}
+
+.card__button:hover .card__media img,
+.card__button:focus-visible .card__media img {
+  transform: scale(1.06);
+  filter: saturate(1.05) contrast(1.04);
+}
+
+.card__period {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.8rem;
+  z-index: 1;
+}
+
+.card__body {
+  display: grid;
+  gap: 0.3rem;
+  padding: 1.1rem 1.2rem 1.25rem;
+}
+
+.card__head {
+  display: flex;
+  flex-wrap: wrap;            /* long names push the diet label to a new line */
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.2rem 0.75rem;
+}
+
+.card__name {
+  font: 400 1.6rem/1.1 var(--serif);
+  letter-spacing: -0.01em;
+}
+
+.card__name mark {
+  background: color-mix(in srgb, var(--amber) 35%, transparent);
+  color: inherit;
+  border-radius: 3px;
+  padding-inline: 1px;
+}
+
+.card__meaning {
+  font: italic 400 1rem/1.3 var(--serif);
+  color: var(--ink-2);
+}
+
+.card__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-top: 0.7rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--line);
+  font-size: 0.8rem;
+  color: var(--ink-3);
+}
+
+.card__stats b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* Very narrow cards: stack the stats. */
+@container (max-width: 15rem) {
+  .card__stats { flex-direction: column; }
+}
+
+.diet {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font: 600 0.68rem/1 var(--sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--d);
+}
+
+.diet::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Cards enter with a short staggered rise. */
+.card { animation: rise 0.6s var(--ease) both; animation-delay: calc(var(--i, 0) * 35ms); }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+}
+
+/* ---- 7. Empty state ----------------------------------------------------- */
+
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  padding: 4rem 1rem 6rem;
+  text-align: center;
+  color: var(--ink-2);
+}
+
+.empty svg {
+  width: 140px;
+  fill: none;
+  stroke: var(--ink-3);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  margin-bottom: 0.5rem;
+}
+
+.empty h2 { font: 400 2rem/1.1 var(--serif); color: var(--ink); }
+.empty .button { margin-top: 0.75rem; }
+
+/* ---- 8. Buttons & tags -------------------------------------------------- */
+
+.button {
+  height: 2.75rem;
+  padding-inline: 1.4rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
+  transition: transform 0.2s var(--ease), filter 0.2s;
+}
+
+.button:hover { transform: translateY(-1px); filter: brightness(1.08); }
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  height: 1.6rem;
+  padding-inline: 0.65rem;
+  border-radius: 999px;
+  background: var(--c);
+  color: #fff;
+  font: 600 0.68rem/1 var(--sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
+}
+
+.is-triassic { --c: var(--triassic); }
+.is-jurassic { --c: var(--jurassic); }
+.is-cretaceous { --c: var(--cretaceous); }
+.is-herbivore { --d: var(--herbivore); }
+.is-carnivore { --d: var(--carnivore); }
+.is-omnivore { --d: var(--omnivore); }
+
+@media (prefers-color-scheme: dark) {
+  .tag { color: #111; }
+}
+
+.round-button {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--card) 85%, transparent);
+  backdrop-filter: blur(8px);
+  transition: background 0.2s, transform 0.2s var(--ease);
+}
+
+.round-button svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.round-button:hover { background: var(--card); transform: scale(1.06); }
+
+/* ---- 9. Detail dialog --------------------------------------------------- */
+
+.detail {
+  width: min(100% - 2rem, 68rem);
+  max-height: min(100% - 2rem, 52rem);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 24px;
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 40px 120px -20px rgb(0 0 0 / 0.5);
+  overflow: hidden;
+}
+
+.detail::backdrop {
+  background: rgb(15 18 16 / 0.55);
+  backdrop-filter: blur(6px);
+}
+
+.detail[open] { animation: pop 0.45s var(--ease); }
+.detail[open]::backdrop { animation: fade 0.3s ease; }
+
+@keyframes pop { from { opacity: 0; transform: translateY(20px) scale(0.97); } }
+@keyframes fade { from { opacity: 0; } }
+
+.detail__inner {
+  display: grid;
+  max-height: inherit;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  @media (min-width: 52em) {
+    grid-template-columns: 1.1fr 1fr;
+    overflow: hidden;
+  }
+}
+
+.detail__media {
+  position: relative;
+  min-height: 16rem;
+  background: var(--paper-2);
+
+  @media (min-width: 52em) { min-height: 100%; }
+}
+
+.detail__media img {
+  width: 100%;
+  height: 100%;
+  max-height: 60vh;
+  object-fit: contain;   /* show the whole animal; cards crop, the detail view doesn't */
+
+  @media (min-width: 52em) { position: absolute; inset: 0; max-height: none; }
+}
+
+.detail__media figcaption {
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  background: rgb(0 0 0 / 0.55);
+  color: #eee;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  backdrop-filter: blur(6px);
+}
+
+.detail__media figcaption a { color: #fff; }
+
+.detail__body {
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+  padding-bottom: 5rem;   /* room for the prev/next buttons */
+
+  @media (min-width: 52em) { overflow-y: auto; }
+
+  & > .tag { justify-self: start; }
+}
+
+.detail__name { font: 400 clamp(2.4rem, 2rem + 2vw, 3.6rem)/1 var(--serif); letter-spacing: -0.03em; margin-top: 0.4rem; }
+.detail__meaning { font: italic 1.2rem/1.3 var(--serif); color: var(--ink-2); }
+.detail__text { font: 1.08rem/1.6 var(--serif); margin-top: 0.4rem; }
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  margin-top: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.facts div { padding: 0.75rem 1rem; background: var(--card); }
+.facts dt { font: 600 0.66rem/1 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+.facts dd { margin-top: 0.35rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.compare { margin-top: 1.25rem; }
+.compare h3 { font: 600 0.7rem/1 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.75rem; }
+
+/* Size chart: both bars use the same scale (the longer of the two = 100%). */
+.compare__chart { display: grid; gap: 0.55rem; }
+
+.compare__chart { grid-template-columns: max-content 1fr; column-gap: 0.9rem; }
+.bar { display: contents; font-size: 0.85rem; }   /* label and track share the parent grid */
+.bar > :first-child { white-space: nowrap; }
+.bar__track { align-self: center; height: 14px; border-radius: 7px; background: var(--paper-2); overflow: hidden; }
+.compare__chart .kicker { grid-column: 1 / -1; }
+
+.bar__fill {
+  display: block;
+  height: 100%;
+  width: var(--w);
+  min-width: 4px;
+  border-radius: inherit;
+  background: var(--c, var(--ink-3));
+  transform-origin: left;
+  animation: grow 0.9s var(--ease) both 0.15s;
+}
+
+@keyframes grow { from { transform: scaleX(0); } }
+
+.detail__nav {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.detail__close { position: absolute; top: 1rem; right: 1rem; }
+
+/* ---- 10. Footer --------------------------------------------------------- */
+
+.footer {
+  border-top: 1px solid var(--line);
+  padding-block: 2.5rem 3rem;
+  color: var(--ink-3);
+  font-size: 0.85rem;
+}
+
+.footer__inner { display: grid; gap: 1rem; }
+
+.credits summary { cursor: pointer; color: var(--ink-2); font-weight: 600; width: fit-content; }
+
+.credits ul {
+  list-style: none;
+  padding: 1rem 0 0;
+  columns: 18rem;
+  column-gap: 2rem;
+}
+
+.credits li { break-inside: avoid; margin-bottom: 0.45rem; line-height: 1.45; }
+.credits b { color: var(--ink-2); font-weight: 600; }
+
+/* ---- 11. Motion --------------------------------------------------------- */
+
+/* Filtering reorders cards with the View Transitions API (see app.js). */
+::view-transition-group(*) { animation-duration: 0.45s; animation-timing-function: var(--ease); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

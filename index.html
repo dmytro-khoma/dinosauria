@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dinosauria · A field guide to 30 dinosaurs</title>
+    <meta name="description" content="A searchable catalogue of 30 dinosaurs. Filter by period, diet, group, region and size, and compare each one with a human.">
+    <meta name="color-scheme" content="light dark">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/data.js" defer></script>
+    <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+    <a class="skip-link" href="#catalogue">Skip to the catalogue</a>
+
+    <!-- ===== Hero ======================================================= -->
+    <header class="hero">
+        <div class="wrap hero__inner">
+            <p class="kicker">A field guide · Mesozoic era</p>
+            <h1 class="hero__title">Dino<em>sauria</em></h1>
+            <p class="hero__lead">
+                Thirty dinosaurs, from the first small hunters of the Triassic to the giants
+                that lived just before the asteroid. Search, filter, and open any card to see
+                how big it really was next to a person.
+            </p>
+
+            <dl class="hero__stats">
+                <div><dt>Species</dt><dd data-stat="count">30</dd></div>
+                <div><dt>Time span</dt><dd><span data-stat="span">165</span> <small>million years</small></dd></div>
+                <div><dt>Longest</dt><dd><span data-stat="longest">35</span> <small>m</small></dd></div>
+            </dl>
+        </div>
+
+        <!-- Timeline: every dot is a dinosaur. The period bands are filter buttons. -->
+        <section class="wrap timeline" aria-labelledby="timeline-title">
+            <h2 class="visually-hidden" id="timeline-title">Mesozoic timeline</h2>
+            <div class="timeline__bands" data-timeline-bands></div>
+            <div class="timeline__dots" data-timeline-dots aria-hidden="true"></div>
+            <div class="timeline__scale" aria-hidden="true">
+                <!-- Positions: (252 − age) / 186 million years -->
+                <span class="tick tick--start">252 Ma</span>
+                <span class="tick tick--triassic-end">201 Ma</span>
+                <span class="tick tick--jurassic-end">145 Ma</span>
+                <span class="tick tick--end">66 Ma</span>
+            </div>
+        </section>
+    </header>
+
+    <main id="catalogue">
+        <!-- ===== Filters ================================================ -->
+        <form class="toolbar" data-filters role="search" aria-label="Filter dinosaurs">
+            <div class="wrap toolbar__inner">
+                <label class="search">
+                    <span class="visually-hidden">Search</span>
+                    <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                    <input type="search" name="q" placeholder="Search name, meaning or region…" autocomplete="off" spellcheck="false">
+                    <kbd aria-hidden="true">/</kbd>
+                </label>
+
+                <fieldset class="chips" data-chips="diet">
+                    <legend class="visually-hidden">Diet</legend>
+                </fieldset>
+
+                <div class="toolbar__selects">
+                    <label class="select">
+                        <span>Group</span>
+                        <select name="group"><option value="">All groups</option></select>
+                    </label>
+                    <label class="select">
+                        <span>Region</span>
+                        <select name="region"><option value="">Everywhere</option></select>
+                    </label>
+                    <label class="range">
+                        <span>Max length <output name="maxOut">35 m</output></span>
+                        <input type="range" name="max" min="1" max="35" step="1" value="35">
+                    </label>
+                    <label class="select">
+                        <span>Sort</span>
+                        <select name="sort">
+                            <option value="name">Name A–Z</option>
+                            <option value="oldest">Oldest first</option>
+                            <option value="newest">Youngest first</option>
+                            <option value="longest">Longest first</option>
+                            <option value="heaviest">Heaviest first</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="wrap toolbar__status">
+                <p aria-live="polite" data-count>30 dinosaurs</p>
+                <div class="active-filters" data-active></div>
+                <button class="text-button" type="reset" data-reset>Clear all</button>
+            </div>
+        </form>
+
+        <!-- ===== Cards ================================================== -->
+        <div class="wrap">
+            <ul class="grid" data-grid role="list"></ul>
+
+            <div class="empty" data-empty hidden>
+                <svg aria-hidden="true" viewBox="0 0 120 80"><path d="M8 70c18-2 26-12 34-24s18-22 34-22c10 0 16 6 22 12l14 6-12 4c-6 0-8 4-10 10-4 10-14 14-26 14H8z"/><circle cx="96" cy="34" r="2.5"/></svg>
+                <h2>No dinosaurs here</h2>
+                <p>Nothing matches these filters. Try a wider search.</p>
+                <button class="button" type="button" data-reset>Clear all filters</button>
+            </div>
+
+            <noscript>
+                <p class="empty">This catalogue needs JavaScript to show the cards.</p>
+            </noscript>
+        </div>
+    </main>
+
+    <!-- ===== Detail dialog ============================================= -->
+    <dialog class="detail" data-detail aria-labelledby="detail-name">
+        <article class="detail__inner">
+            <figure class="detail__media">
+                <img data-d="img" alt="" decoding="async">
+                <figcaption data-d="credit"></figcaption>
+            </figure>
+            <div class="detail__body">
+                <p class="tag" data-d="period"></p>
+                <h2 class="detail__name" id="detail-name" data-d="name"></h2>
+                <p class="detail__meaning" data-d="meaning"></p>
+                <p class="detail__text" data-d="text"></p>
+
+                <dl class="facts" data-d="facts"></dl>
+
+                <section class="compare" aria-labelledby="compare-title">
+                    <h3 id="compare-title">Size next to a human</h3>
+                    <div class="compare__chart" data-d="compare"></div>
+                </section>
+            </div>
+        </article>
+
+        <nav class="detail__nav" aria-label="Dinosaur navigation">
+            <button class="round-button" type="button" data-step="-1" aria-label="Previous dinosaur">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg>
+            </button>
+            <button class="round-button" type="button" data-step="1" aria-label="Next dinosaur">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
+            </button>
+        </nav>
+        <form method="dialog">
+            <button class="round-button detail__close" aria-label="Close">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+            </button>
+        </form>
+    </dialog>
+
+    <!-- ===== Card template ============================================= -->
+    <template id="card-template">
+        <li class="card">
+            <button class="card__button" type="button">
+                <span class="card__media">
+                    <img alt="" loading="lazy" decoding="async">
+                    <span class="tag card__period"></span>
+                </span>
+                <span class="card__body">
+                    <span class="card__head">
+                        <span class="card__name"></span>
+                        <span class="diet" aria-hidden="true"></span>
+                    </span>
+                    <span class="card__meaning"></span>
+                    <span class="card__stats">
+                        <span><b data-f="length"></b> m long</span>
+                        <span><b data-f="weight"></b></span>
+                        <span><b data-f="age"></b> Ma</span>
+                    </span>
+                </span>
+            </button>
+        </li>
+    </template>
+
+    <footer class="footer">
+        <div class="wrap footer__inner">
+            <p>
+                Facts are rounded textbook values; sizes differ between sources.
+                Made with plain HTML, CSS and JavaScript.
+            </p>
+            <details class="credits">
+                <summary>Image credits</summary>
+                <ul data-credits role="list"></ul>
+            </details>
+        </div>
+    </footer>
+</body>
+</html>
